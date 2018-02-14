@@ -6,28 +6,30 @@
 
 using namespace std;
 
-# NOTE: See https://github.com/udacity/sdc-issue-reports/issues/914
+// NOTE: See https://github.com/udacity/sdc-issue-reports/issues/914
 vector<vector<double> > Load_State(string file_name)
 {
   ifstream in_state_(file_name.c_str(), ifstream::in);
   vector< vector<double >> state_out;
   string line;
-
+  cout << "file_name: " << file_name << "\n";
 
   while (getline(in_state_, line))
   {
     istringstream iss(line);
     vector<double> x_coord;
+    while (iss) {
+      string s;
+      if (!getline(iss, s, ',' )) break;
+      x_coord.push_back(stod(s));
 
-    string token;
-    while( getline(iss,token,','))
-    {
-      x_coord.push_back(stod(token));
     }
+    iss.clear();
     state_out.push_back(x_coord);
   }
   return state_out;
 }
+
 vector<string> Load_Label(string file_name)
 {
   ifstream in_label_(file_name.c_str(), ifstream::in);
@@ -47,10 +49,10 @@ vector<string> Load_Label(string file_name)
 
 int main() {
 
-  vector< vector<double> > X_train = Load_State("./train_states.txt");
-  vector< vector<double> > X_test  = Load_State("./test_states.txt");
-  vector< string > Y_train  = Load_Label("./train_labels.txt");
-  vector< string > Y_test   = Load_Label("./test_labels.txt");
+  vector< vector<double> > X_train = Load_State("../train_states.txt");
+  vector< vector<double> > X_test  = Load_State("../test_states.txt");
+  vector< string > Y_train  = Load_Label("../train_labels.txt");
+  vector< string > Y_test   = Load_Label("../test_labels.txt");
 
   cout << "X_train number of elements " << X_train.size() << endl;
   cout << "X_train element size " << X_train[0].size() << endl;
